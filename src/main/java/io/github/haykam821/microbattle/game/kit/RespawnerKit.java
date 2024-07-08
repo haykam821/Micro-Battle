@@ -10,6 +10,7 @@ import net.minecraft.block.RespawnAnchorBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -116,16 +117,20 @@ public class RespawnerKit extends PlayerKit {
 		}
 
 		// Reset state
-		entry.getPlayer().setHealth(entry.getPlayer().getMaxHealth());
-		entry.getPlayer().getHungerManager().setFoodLevel(20);
-		entry.getPlayer().extinguish();
-		entry.getPlayer().getDamageTracker().update();
-		entry.getPlayer().fallDistance = 0;
+		ServerPlayerEntity player = this.entry.getPlayer();
+
+		player.setHealth(player.getMaxHealth());
+		player.getHungerManager().setFoodLevel(20);
+		player.setAir(player.getMaxAir());
+
+		player.extinguish();
+		player.getDamageTracker().update();
+		player.fallDistance = 0;
 
 		// Teleport and spawn
 		Vec3d spawn = this.getRespawnAroundPos(respawnPos);
-		entry.getPlayer().teleport(world, spawn.getX(), spawn.getY(), spawn.getZ(), 0, 0);;
-		entry.getKit().reinitialize();
+		player.teleport(world, spawn.getX(), spawn.getY(), spawn.getZ(), 0, 0);
+		this.entry.getKit().reinitialize();
 
 		return ActionResult.SUCCESS;
 	}
