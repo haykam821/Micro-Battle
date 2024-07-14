@@ -1,11 +1,15 @@
 package io.github.haykam821.microbattle.game.kit;
 
+import java.util.Collection;
+import java.util.List;
+
 import io.github.haykam821.microbattle.game.PlayerEntry;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.potion.PotionUtil;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -58,14 +62,10 @@ public class ShulkerKit extends ArcherKit {
 			.setName(Text.translatable("item.microbattle.shulker_arrow"))
 			.build();
 
-		NbtCompound potionEffect = new NbtCompound();
-		potionEffect.putInt("Id", 25);
-		potionEffect.putInt("Duration", 3 * 20);
+		StatusEffectInstance effect = new StatusEffectInstance(StatusEffects.LEVITATION, 3 * 20);
+		Collection<StatusEffectInstance> effects = List.of(effect);
 
-		NbtList customPotionEffects = new NbtList();
-		customPotionEffects.add(potionEffect);
-
-		stack.setSubNbt("CustomPotionEffects", customPotionEffects);
+		PotionUtil.setCustomPotionEffects(stack, effects);
 		stack.getNbt().putInt("CustomPotionColor", 0xCEFFFF);
 
 		return stack;
