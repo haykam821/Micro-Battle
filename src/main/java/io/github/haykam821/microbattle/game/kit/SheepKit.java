@@ -13,6 +13,7 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class SheepKit extends Kit {
@@ -50,27 +51,29 @@ public class SheepKit extends Kit {
 
 	@Override
 	public ActionResult onUseBlock(Hand hand, BlockHitResult hitResult) {
-		BlockPos pos = hitResult.getBlockPos();
-		World world = this.player.getEntityWorld();
-		BlockState state = world.getBlockState(pos);
+		if (hitResult.getSide() != Direction.DOWN) {
+			BlockPos pos = hitResult.getBlockPos();
+			World world = this.player.getEntityWorld();
+			BlockState state = world.getBlockState(pos);
 
-		boolean grassBlock = state.isOf(Blocks.GRASS_BLOCK);
-		if (state.isOf(Blocks.GRASS) || grassBlock) {
-			if (grassBlock) {
-				world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.GRASS_BLOCK.getDefaultState()));
-				world.setBlockState(pos, DIRT, 2);
-			} else {
-				world.breakBlock(pos, false, this.player);
+			boolean grassBlock = state.isOf(Blocks.GRASS_BLOCK);
+			if (state.isOf(Blocks.GRASS) || grassBlock) {
+				if (grassBlock) {
+					world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.GRASS_BLOCK.getDefaultState()));
+					world.setBlockState(pos, DIRT, 2);
+				} else {
+					world.breakBlock(pos, false, this.player);
+				}
+
+				this.grassEaten += 1;
+				this.updateExperienceBarForWoolCoat();
+
+				if (this.grassEaten == WOOL_COAT_REQUIRED_GRASS) {
+					world.playSoundFromEntity(null, this.player, SoundEvents.ENTITY_SHEEP_AMBIENT, SoundCategory.PLAYERS, 1, 1);
+				}
+
+				return ActionResult.FAIL;
 			}
-
-			this.grassEaten += 1;
-			this.updateExperienceBarForWoolCoat();
-
-			if (this.grassEaten == WOOL_COAT_REQUIRED_GRASS) {
-				world.playSoundFromEntity(null, this.player, SoundEvents.ENTITY_SHEEP_AMBIENT, SoundCategory.PLAYERS, 1, 1);
-			}
-
-			return ActionResult.FAIL;
 		}
 		return ActionResult.PASS;
 	}
