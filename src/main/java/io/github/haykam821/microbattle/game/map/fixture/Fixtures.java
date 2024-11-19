@@ -29,7 +29,7 @@ public final class Fixtures {
 
 	protected static Fixture grassPatch(Random random) {
 		int radius = random.nextInt(3) + 2;
-		return new PatchFixture(radius, BlockStateProvider.of(Blocks.GRASS));
+		return new PatchFixture(radius, BlockStateProvider.of(Blocks.SHORT_GRASS));
 	}
 
 	protected static Fixture decoration(Random random) {

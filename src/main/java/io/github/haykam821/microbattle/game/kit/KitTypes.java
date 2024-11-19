@@ -16,7 +16,7 @@ public class KitTypes {
 	public static final KitType<FoxKit> FOX = register("fox", FoxKit::new, Items.SWEET_BERRIES);
 	public static final KitType<PlayerKit> PLAYER = register("player", PlayerKit::new, Items.PLAYER_HEAD);
 	public static final KitType<RespawnerKit> RESPAWNER = register("respawner", RespawnerKit::new, Items.BEACON);
-	public static final KitType<SheepKit> SHEEP = register("sheep", SheepKit::new, Items.GRASS);
+	public static final KitType<SheepKit> SHEEP = register("sheep", SheepKit::new, Items.SHORT_GRASS);
 	public static final KitType<ShulkerKit> SHULKER = register("shulker", ShulkerKit::new, Items.SHULKER_SHELL);
 	public static final KitType<SkeletonKit> SKELETON = register("skeleton", SkeletonKit::new, Items.BONE);
 	public static final KitType<SnowGolemKit> SNOW_GOLEM = register("snow_golem", SnowGolemKit::new, Items.SNOWBALL);

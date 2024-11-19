@@ -57,7 +57,7 @@ public class SheepKit extends Kit {
 			BlockState state = world.getBlockState(pos);
 
 			boolean grassBlock = state.isOf(Blocks.GRASS_BLOCK);
-			if (state.isOf(Blocks.GRASS) || grassBlock) {
+			if (state.isOf(Blocks.SHORT_GRASS) || grassBlock) {
 				if (grassBlock) {
 					world.syncWorldEvent(2001, pos, Block.getRawIdFromState(Blocks.GRASS_BLOCK.getDefaultState()));
 					world.setBlockState(pos, DIRT, 2);
